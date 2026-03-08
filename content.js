@@ -335,6 +335,20 @@ function injectPanda() {
 
     .hands-up #panda-arm-l { animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2; }
     .hands-up #panda-arm-r { animation: handshake-right 0.5s cubic-bezier(0.45, 0, 0.55, 1) 2; }
+    
+    @keyframes groove-wiggle {
+      0% { transform: translateX(-5px) rotate(-3deg); }
+      100% { transform: translateX(5px) rotate(3deg); }
+    }
+    .is-dancing { animation: groove-wiggle 0.4s ease-in-out infinite alternate !important; }
+    .is-dancing #dance-notes { display: block !important; }
+    .note { animation: note-float 2s linear infinite; opacity: 0; }
+    @keyframes note-float {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-40px) translateX(10px) rotate(20deg); opacity: 0; }
+    }
+
     .hands-up #panda-leg-l { animation: happy-kick 0.5s ease-in-out 2; }
     .hands-up #panda-leg-r { animation: happy-kick 0.5s ease-in-out 2 alternate-reverse; }
     .walking { animation: walk-cycle 0.6s cubic-bezier(0.45, 0, 0.55, 1) infinite !important; }
@@ -416,6 +430,11 @@ function injectPanda() {
     const isVisible = notepad.style.display === 'flex';
     notepad.style.display = isVisible ? 'none' : 'flex';
     if (!isVisible) { updateNotepadPosition(); textarea.focus(); }
+  }
+
+  function toggleDance() {
+    if (isDragging || isWalking || settings.enableSleep || isAngry) return;
+    wrapper.classList.toggle('is-dancing');
   }
 
   function updateNotepadPosition() {
