@@ -49,21 +49,26 @@ function injectPanda() {
       cursor: grab;
       z-index: 999999;
       user-select: none;
-      transition: transform 0.2s ease, left 2s ease-in-out, top 2s ease-in-out;
-      animation: float 3s ease-in-out infinite;
+      transition: transform 0.3s ease, left 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95), top 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
     }
     #panda-wrapper:active {
       cursor: grabbing;
-      transition: none;
+      transition: transform 0.2s ease !important;
     }
     .waving {
       animation: wave 0.5s ease-in-out !important;
+    }
+    .walking {
+      animation: walk-bob 0.4s ease-in-out infinite alternate !important;
     }
     .walking #panda-leg-l {
       animation: walk-leg 0.4s ease-in-out infinite alternate;
     }
     .walking #panda-leg-r {
       animation: walk-leg 0.4s ease-in-out infinite alternate-reverse;
+    }
+    .facing-left svg {
+      transform: scaleX(-1);
     }
     #panda-mouth {
       transition: d 0.2s ease;
@@ -73,6 +78,10 @@ function injectPanda() {
       50% { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
     }
+    @keyframes walk-bob {
+      0% { transform: translateY(0px) rotate(-3deg); }
+      100% { transform: translateY(-5px) rotate(3deg); }
+    }
     @keyframes wave {
       0% { transform: rotate(0deg); }
       25% { transform: rotate(15deg); }
@@ -81,12 +90,13 @@ function injectPanda() {
       100% { transform: rotate(0deg); }
     }
     @keyframes walk-leg {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-15px); }
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-12px) scale(1.1); }
     }
     svg {
       width: 100%;
       height: 100%;
+      transition: transform 0.3s ease;
     }
   `;
 
@@ -99,16 +109,24 @@ function injectPanda() {
     if (isDragging || isWalking) return;
     
     isWalking = true;
-    wrapper.classList.add('walking');
-
-    const maxX = window.innerWidth - 100;
-    const maxY = window.innerHeight - 100;
     
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    const maxX = window.innerWidth - 120;
+    const maxY = window.innerHeight - 120;
+    
+    const targetX = Math.max(20, Math.random() * maxX);
+    const targetY = Math.max(20, Math.random() * maxY);
 
-    wrapper.style.left = `${randomX}px`;
-    wrapper.style.top = `${randomY}px`;
+    // Determine direction and flip
+    const currentX = wrapper.offsetLeft;
+    if (targetX < currentX) {
+      wrapper.classList.add('facing-left');
+    } else {
+      wrapper.classList.remove('facing-left');
+    }
+
+    wrapper.classList.add('walking');
+    wrapper.style.left = `${targetX}px`;
+    wrapper.style.top = `${targetY}px`;
     wrapper.style.bottom = 'auto';
     wrapper.style.right = 'auto';
 
@@ -123,15 +141,15 @@ function injectPanda() {
           top: wrapper.style.top
         }
       });
-    }, 2000); // Matches the 2s transition in CSS
+    }, 2500); 
   }
 
-  // Start walking randomly every 5-10 seconds
+  // Start walking randomly every 8-15 seconds for a more natural feel
   setInterval(() => {
-    if (Math.random() > 0.7) { // 30% chance to walk every interval
+    if (!isDragging && !isWalking && Math.random() > 0.6) {
       walkAround();
     }
-  }, 5000);
+  }, 8000);
 
   wrapper.addEventListener('click', () => {
     if (isDragging) return;
