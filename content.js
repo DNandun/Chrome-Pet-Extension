@@ -187,6 +187,16 @@ function injectPanda() {
   `;
   shadow.appendChild(notepad);
 
+  const menu = document.createElement('div');
+  menu.id = 'panda-radial-menu';
+  menu.innerHTML = `
+    <div class="menu-item" data-action="note" title="Notepad">📝</div>
+    <div class="menu-item" data-action="sleep" title="Sleep/Wake">💤</div>
+    <div class="menu-item" data-action="dance" title="Dance">🎵</div>
+    <div class="menu-item" data-action="hide" title="Hide">❌</div>
+  `;
+  shadow.appendChild(menu);
+
   const mouth = wrapper.querySelector('#panda-mouth');
   const eyeL = wrapper.querySelector('#panda-eye-l');
   const eyeR = wrapper.querySelector('#panda-eye-r');
@@ -270,6 +280,38 @@ function injectPanda() {
       0% { transform: translateY(0) rotate(0deg); }
       100% { transform: translateY(-5px) rotate(5deg); }
     }
+
+    #panda-radial-menu {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      top: -25px;
+      left: -25px;
+      display: none;
+      pointer-events: none;
+      z-index: 10;
+    }
+    #panda-radial-menu.active { display: block; pointer-events: auto; }
+    .menu-item {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      border: 2px solid #2d2926;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s;
+    }
+    .menu-item:hover { background: #eee; transform: scale(1.2); }
+    /* Position items in a circle */
+    .menu-item[data-action="note"] { top: 0; left: 42px; }
+    .menu-item[data-action="sleep"] { top: 42px; right: 0; }
+    .menu-item[data-action="dance"] { bottom: 0; left: 42px; }
+    .menu-item[data-action="hide"] { top: 42px; left: 0; }
 
     #panda-notepad {
       position: fixed;
@@ -384,7 +426,41 @@ function injectPanda() {
 
   chrome.storage.sync.get(['pandaNotes'], (result) => { if (result.pandaNotes) textarea.value = result.pandaNotes; });
   textarea.addEventListener('input', () => { chrome.storage.sync.set({ pandaNotes: textarea.value }); });
-  wrapper.addEventListener('contextmenu', (e) => { e.preventDefault(); toggleNotepad(); });
+  
+  let menuOpen = false;
+  wrapper.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    menuOpen = !menuOpen;
+    if (menuOpen) menu.classList.add('active'); else menu.classList.remove('active');
+  });
+
+  menu.addEventListener('click', (e) => {
+    const action = e.target.closest('.menu-item')?.dataset.action;
+    if (!action) return;
+    
+    menuOpen = false;
+    menu.classList.remove('active');
+    
+    if (action === 'note') toggleNotepad();
+    else if (action === 'sleep') {
+      settings.enableSleep = !settings.enableSleep;
+      chrome.storage.sync.set({ enableSleep: settings.enableSleep });
+      applySleepVisuals();
+    }
+    else if (action === 'dance') toggleDance();
+    else if (action === 'hide') {
+      settings.enablePanda = false;
+      chrome.storage.sync.set({ enablePanda: false });
+      removePanda();
+    }
+  });
+
+  document.addEventListener('mousedown', (e) => {
+    if (menuOpen && !wrapper.contains(e.target) && !menu.contains(e.target)) {
+      menuOpen = false;
+      menu.classList.remove('active');
+    }
+  });
 
   function applySleepVisuals() {
     if (!wrapper) return;
