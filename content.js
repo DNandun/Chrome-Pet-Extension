@@ -1,20 +1,28 @@
 const PANDA_SVG = `
 <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body -->
+  <ellipse cx="100" cy="150" rx="60" ry="45" fill="white" stroke="#2d2926" stroke-width="8"/>
+  <!-- Arms/Legs -->
+  <circle cx="55" cy="175" r="22" fill="#2d2926" />
+  <circle cx="145" cy="175" r="22" fill="#2d2926" />
+  <circle cx="50" cy="130" r="20" fill="#2d2926" />
+  <circle cx="150" cy="130" r="20" fill="#2d2926" />
+  
   <!-- Ears -->
-  <circle cx="50" cy="50" r="30" fill="#2d2926" />
-  <circle cx="150" cy="50" r="30" fill="#2d2926" />
+  <circle cx="60" cy="40" r="25" fill="#2d2926" />
+  <circle cx="140" cy="40" r="25" fill="#2d2926" />
   <!-- Head -->
-  <ellipse cx="100" cy="110" rx="80" ry="70" fill="white" stroke="#2d2926" stroke-width="8"/>
+  <ellipse cx="100" cy="85" rx="70" ry="60" fill="white" stroke="#2d2926" stroke-width="8"/>
   <!-- Eyes -->
-  <ellipse cx="70" cy="100" rx="20" ry="25" fill="#2d2926" />
-  <ellipse cx="130" cy="100" rx="20" ry="25" fill="#2d2926" />
-  <circle cx="70" cy="95" r="6" fill="white" />
-  <circle cx="130" cy="95" r="6" fill="white" />
+  <ellipse cx="75" cy="80" rx="18" ry="22" fill="#2d2926" />
+  <ellipse cx="125" cy="80" rx="18" ry="22" fill="#2d2926" />
+  <circle cx="75" cy="75" r="5" fill="white" />
+  <circle cx="125" cy="75" r="5" fill="white" />
   <!-- Nose -->
-  <path d="M95 125 Q100 130 105 125" stroke="#2d2926" stroke-width="4" fill="none" />
+  <path d="M95 105 Q100 110 105 105" stroke="#2d2926" stroke-width="4" fill="none" />
   <!-- Cheeks -->
-  <circle cx="50" cy="130" r="10" fill="#ffb7c5" opacity="0.6" />
-  <circle cx="150" cy="130" r="10" fill="#ffb7c5" opacity="0.6" />
+  <circle cx="55" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
+  <circle cx="145" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
 </svg>
 `;
 
