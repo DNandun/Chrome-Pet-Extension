@@ -19,7 +19,7 @@ const PANDA_SVG = `
   <circle cx="75" cy="75" r="5" fill="white" />
   <circle cx="125" cy="75" r="5" fill="white" />
   <!-- Nose -->
-  <path d="M95 105 Q100 110 105 105" stroke="#2d2926" stroke-width="4" fill="none" />
+  <path id="panda-mouth" d="M95 105 Q100 110 105 105" stroke="#2d2926" stroke-width="4" fill="none" />
   <!-- Cheeks -->
   <circle cx="55" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
   <circle cx="145" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
@@ -35,6 +35,8 @@ function injectPanda() {
   const wrapper = document.createElement('div');
   wrapper.id = 'panda-wrapper';
   wrapper.innerHTML = PANDA_SVG;
+
+  const mouth = wrapper.querySelector('#panda-mouth');
 
   const style = document.createElement('style');
   style.textContent = `
@@ -55,6 +57,9 @@ function injectPanda() {
     }
     .waving {
       animation: wave 0.5s ease-in-out !important;
+    }
+    #panda-mouth {
+      transition: d 0.2s ease;
     }
     @keyframes float {
       0% { transform: translateY(0px); }
@@ -79,8 +84,21 @@ function injectPanda() {
 
   wrapper.addEventListener('click', () => {
     if (isDragging) return;
+    
+    // Wave animation
     wrapper.classList.add('waving');
-    setTimeout(() => wrapper.classList.remove('waving'), 500);
+    
+    // Smile animation
+    if (mouth) {
+      mouth.setAttribute('d', 'M85 105 Q100 125 115 105');
+    }
+
+    setTimeout(() => {
+      wrapper.classList.remove('waving');
+      if (mouth) {
+        mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
+      }
+    }, 500);
   });
 
   // Load position
