@@ -451,16 +451,36 @@ function injectPanda() {
     } else { wrapper.classList.remove('idle-looking'); }
   }, 1500);
 
+  function clampPosition(left, top) {
+    const width = 70; // Panda width
+    const height = 70; // Panda height
+    const maxX = window.innerWidth - width - 20;
+    const maxY = window.innerHeight - height - 20;
+    return {
+      left: Math.max(20, Math.min(left, maxX)),
+      top: Math.max(20, Math.min(top, maxY))
+    };
+  }
+
+  window.addEventListener('resize', () => {
+    if (!wrapper) return;
+    const pos = clampPosition(wrapper.offsetLeft, wrapper.offsetTop);
+    wrapper.style.left = `${pos.left}px`;
+    wrapper.style.top = `${pos.top}px`;
+    savePosition();
+  });
+
   function walkAround() {
     if (isDragging || isWalking || !settings.enableWalking || settings.enableSleep || isAngry) return;
     isWalking = true;
     const maxX = window.innerWidth - 90;
     const bottomY = window.innerHeight - 90;
     const targetX = Math.max(20, Math.random() * maxX);
-    if (targetX < wrapper.offsetLeft) wrapper.classList.add('facing-left'); else wrapper.classList.remove('facing-left');
+    const pos = clampPosition(targetX, bottomY);
+    if (pos.left < wrapper.offsetLeft) wrapper.classList.add('facing-left'); else wrapper.classList.remove('facing-left');
     wrapper.classList.add('walking');
-    wrapper.style.left = `${targetX}px`;
-    wrapper.style.top = `${bottomY}px`;
+    wrapper.style.left = `${pos.left}px`;
+    wrapper.style.top = `${pos.top}px`;
     setTimeout(() => { isWalking = false; wrapper.classList.remove('walking'); savePosition(); }, 8000);
   }
 
@@ -496,8 +516,10 @@ function injectPanda() {
     if (!isDragging) return;
     isDragging = false;
     const bottomY = window.innerHeight - 90;
+    const pos = clampPosition(wrapper.offsetLeft, bottomY);
     wrapper.style.transition = 'left 0.4s ease-out, top 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    wrapper.style.top = `${bottomY}px`;
+    wrapper.style.left = `${pos.left}px`;
+    wrapper.style.top = `${pos.top}px`;
     setTimeout(() => { wrapper.classList.add('landing'); savePosition(); setTimeout(() => { wrapper.classList.remove('landing'); wrapper.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 4s cubic-bezier(0.45, 0, 0.55, 1), top 0.8s cubic-bezier(0.65, 0, 0.35, 1)'; }, 500); }, 800);
   });
 
