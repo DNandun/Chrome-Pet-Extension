@@ -390,6 +390,18 @@ function injectPanda() {
     .is-angry { animation: angry-shake 0.1s linear infinite !important; }
     .is-angry #panda-cheek-l, .is-angry #panda-cheek-r { fill: #ff4d4d !important; opacity: 0.8 !important; }
     .is-angry #panda-head-base { animation: angry-head-red 0.5s ease-in-out forwards; }
+    
+    .is-blushing #panda-cheek-l, .is-blushing #panda-cheek-r { 
+      fill: #ff69b4 !important; opacity: 0.9 !important; transform: scale(1.3);
+    }
+    .is-blushing #pet-hearts { display: block !important; }
+    .heart { animation: heart-pop 1s ease-out forwards; }
+    @keyframes heart-pop {
+      0% { transform: scale(0); opacity: 0; }
+      50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
+      100% { opacity: 0; transform: scale(1) translateY(-30px); }
+    }
+
     .is-angry #smoke-marks { display: block !important; }
     #smoke-1 { animation: smoke-rise 1s ease-out infinite; }
     #smoke-2 { animation: smoke-rise 1s ease-out infinite 0.3s; }
@@ -435,6 +447,31 @@ function injectPanda() {
   function toggleDance() {
     if (isDragging || isWalking || settings.enableSleep || isAngry) return;
     wrapper.classList.toggle('is-dancing');
+  }
+
+  let mouseTraveled = 0;
+  let lastX = 0, lastY = 0;
+  wrapper.addEventListener('mousemove', (e) => {
+    if (isDragging) return;
+    const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+    mouseTraveled += dist;
+    lastX = e.clientX; lastY = e.clientY;
+    
+    if (mouseTraveled > 1000) {
+      triggerHappy();
+      mouseTraveled = 0;
+    }
+  });
+  setInterval(() => { mouseTraveled = Math.max(0, mouseTraveled - 50); }, 200);
+
+  function triggerHappy() {
+    if (isAngry || settings.enableSleep) return;
+    wrapper.classList.add('is-blushing');
+    if (mouth) mouth.setAttribute('d', 'M85 105 Q100 125 115 105');
+    setTimeout(() => {
+      wrapper.classList.remove('is-blushing');
+      if (mouth) mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
+    }, 2000);
   }
 
   function updateNotepadPosition() {
