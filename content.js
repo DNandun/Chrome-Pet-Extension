@@ -95,6 +95,9 @@ function injectPanda() {
     #panda-eye-l, #panda-eye-r {
       transition: transform 0.1s ease-out;
     }
+    .landing {
+      animation: landing-squash 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
     @keyframes walk-bob {
       0% { transform: translateY(0px) rotate(-6deg); }
       100% { transform: translateY(-10px) rotate(6deg); }
@@ -102,6 +105,11 @@ function injectPanda() {
     @keyframes body-squash {
       0% { transform: scale(1.1, 0.85); transform-origin: center bottom; } 
       100% { transform: scale(0.92, 1.08); transform-origin: center bottom; }
+    }
+    @keyframes landing-squash {
+      0% { transform: scale(1, 1); }
+      40% { transform: scale(1.25, 0.75); transform-origin: center bottom; }
+      100% { transform: scale(1, 1); }
     }
     @keyframes raise-arm-l {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -260,15 +268,33 @@ function injectPanda() {
   document.addEventListener('mouseup', () => {
     if (!isDragging) return;
     isDragging = false;
-    wrapper.style.transition = 'transform 0.2s ease';
     
-    // Save position
-    chrome.storage.sync.set({
-      pandaPos: {
-        left: wrapper.style.left,
-        top: wrapper.style.top
-      }
-    });
+    // BEAUTIFUL RETURN TO BOTTOM
+    const bottomY = window.innerHeight - 90;
+    
+    // Use a springy, graceful transition for the fall
+    wrapper.style.transition = 'left 0.4s ease-out, top 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    wrapper.style.top = `${bottomY}px`;
+    
+    // Add landing squash once it hits the bottom
+    setTimeout(() => {
+      wrapper.classList.add('landing');
+      
+      // Save position
+      chrome.storage.sync.set({
+        pandaPos: {
+          left: wrapper.style.left,
+          top: wrapper.style.top
+        }
+      });
+
+      // Cleanup
+      setTimeout(() => {
+        wrapper.classList.remove('landing');
+        // Reset to normal high-polish transitions
+        wrapper.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 2s cubic-bezier(0.65, 0, 0.35, 1), top 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
+      }, 500);
+    }, 800);
   });
 }
 
