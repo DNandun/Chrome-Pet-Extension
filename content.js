@@ -57,10 +57,10 @@ function injectPanda() {
       transition: transform 0.2s ease !important;
     }
     .hands-up #panda-arm-l {
-      animation: raise-arm-l 0.5s ease-in-out forwards;
+      animation: raise-arm-l 0.4s ease-in-out 2;
     }
     .hands-up #panda-arm-r {
-      animation: raise-arm-r 0.5s ease-in-out forwards;
+      animation: raise-arm-r 0.4s ease-in-out 2;
     }
     .walking {
       /* Faster bobbing for running */
@@ -97,12 +97,12 @@ function injectPanda() {
       100% { transform: scale(0.85, 1.15); transform-origin: center bottom; }
     }
     @keyframes raise-arm-l {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-10px, -40px); }
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-10px, -40px); }
     }
     @keyframes raise-arm-r {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(10px, -40px); }
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(10px, -40px); }
     }
     @keyframes walk-leg {
       0% { transform: translateY(0px); }
@@ -180,7 +180,7 @@ function injectPanda() {
       if (mouth) {
         mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
       }
-    }, 500);
+    }, 800); // 2 iterations of 0.4s = 0.8s
   });
 
   // Load position
