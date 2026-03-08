@@ -49,69 +49,69 @@ function injectPanda() {
       cursor: grab;
       z-index: 999999;
       user-select: none;
-      /* Faster 'run' transition, constrained to bottom */
-      transition: transform 0.4s ease, left 2s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease;
+      /* Ultra-smooth cubic-bezier for running */
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  left 2s cubic-bezier(0.65, 0, 0.35, 1), 
+                  top 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform, left, top;
     }
     #panda-wrapper:active {
       cursor: grabbing;
       transition: transform 0.2s ease !important;
     }
     .hands-up #panda-arm-l {
-      animation: raise-arm-l 0.4s ease-in-out 2;
+      animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .hands-up #panda-arm-r {
-      animation: raise-arm-r 0.4s ease-in-out 2;
+      animation: raise-arm-r 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .walking {
-      /* Faster bobbing for running */
-      animation: walk-bob 0.4s ease-in-out infinite alternate !important;
+      animation: walk-bob 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate !important;
     }
     .walking #panda-leg-l {
-      animation: walk-leg 0.4s ease-in-out infinite alternate;
+      animation: walk-leg 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
     }
     .walking #panda-leg-r {
-      animation: walk-leg 0.4s ease-in-out infinite alternate-reverse;
+      animation: walk-leg 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate-reverse;
     }
-    /* Running squash and stretch */
     .walking ellipse[cy="150"] {
-      animation: body-squash 0.4s ease-in-out infinite alternate;
+      animation: body-squash 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
     }
     .facing-left svg {
       transform: scaleX(-1);
     }
     #panda-mouth {
-      transition: d 0.2s ease;
-    }
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
+      transition: d 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     @keyframes walk-bob {
-      0% { transform: translateY(0px) rotate(-8deg); }
-      50% { transform: translateY(-12px) rotate(0deg); }
-      100% { transform: translateY(0px) rotate(8deg); }
+      0% { transform: translateY(0px) rotate(-6deg); }
+      100% { transform: translateY(-10px) rotate(6deg); }
     }
     @keyframes body-squash {
-      0% { transform: scale(1.15, 0.8); transform-origin: center bottom; } 
-      100% { transform: scale(0.85, 1.15); transform-origin: center bottom; }
+      0% { transform: scale(1.1, 0.85); transform-origin: center bottom; } 
+      100% { transform: scale(0.92, 1.08); transform-origin: center bottom; }
     }
     @keyframes raise-arm-l {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-10px, -40px); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-12px, -45px) rotate(-15deg); }
     }
     @keyframes raise-arm-r {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(10px, -40px); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(12px, -45px) rotate(15deg); }
     }
     @keyframes walk-leg {
       0% { transform: translateY(0px); }
-      100% { transform: translateY(-25px) translateX(8px); }
+      100% { transform: translateY(-22px) translateX(6px); }
     }
     svg {
       width: 100%;
       height: 100%;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      shape-rendering: geometricPrecision;
+    }
+    * {
+      transform-box: fill-box;
+      transform-origin: center;
     }
   `;
 
