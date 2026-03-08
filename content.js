@@ -63,7 +63,8 @@ function injectPanda() {
       animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .hands-up #panda-arm-r {
-      animation: handshake-right 0.25s linear 4;
+      /* Beautiful, smooth handshake/wave */
+      animation: handshake-right 0.5s cubic-bezier(0.45, 0, 0.55, 1) 2;
     }
     .hands-up #panda-leg-l {
       animation: happy-kick 0.5s ease-in-out 2;
@@ -103,7 +104,8 @@ function injectPanda() {
     }
     @keyframes handshake-right {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      50% { transform: translate(15px, -15px) rotate(10deg); }
+      /* A graceful, polite wave */
+      50% { transform: translate(12px, -30px) rotate(20deg); }
     }
     @keyframes happy-kick {
       0%, 100% { transform: translateY(0); }
