@@ -59,13 +59,17 @@ function injectPanda() {
       animation: wave 0.5s ease-in-out !important;
     }
     .walking {
-      animation: walk-bob 0.4s ease-in-out infinite alternate !important;
+      animation: walk-bob 0.5s ease-in-out infinite alternate !important;
     }
     .walking #panda-leg-l {
-      animation: walk-leg 0.4s ease-in-out infinite alternate;
+      animation: walk-leg 0.5s ease-in-out infinite alternate;
     }
     .walking #panda-leg-r {
-      animation: walk-leg 0.4s ease-in-out infinite alternate-reverse;
+      animation: walk-leg 0.5s ease-in-out infinite alternate-reverse;
+    }
+    /* Squash and Stretch for the body */
+    .walking ellipse[cy="150"] {
+      animation: body-squash 0.5s ease-in-out infinite alternate;
     }
     .facing-left svg {
       transform: scaleX(-1);
@@ -79,8 +83,13 @@ function injectPanda() {
       100% { transform: translateY(0px); }
     }
     @keyframes walk-bob {
-      0% { transform: translateY(0px) rotate(-3deg); }
-      100% { transform: translateY(-5px) rotate(3deg); }
+      0% { transform: translateY(0px) rotate(-4deg); }
+      50% { transform: translateY(-8px) rotate(0deg); }
+      100% { transform: translateY(0px) rotate(4deg); }
+    }
+    @keyframes body-squash {
+      0% { transform: scale(1.05, 0.9); transform-origin: center bottom; } /* Squash at bottom of step */
+      100% { transform: scale(0.95, 1.05); transform-origin: center bottom; } /* Stretch at top of step */
     }
     @keyframes wave {
       0% { transform: rotate(0deg); }
@@ -90,8 +99,8 @@ function injectPanda() {
       100% { transform: rotate(0deg); }
     }
     @keyframes walk-leg {
-      0% { transform: translateY(0px) scale(1); }
-      100% { transform: translateY(-12px) scale(1.1); }
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-18px); }
     }
     svg {
       width: 100%;
