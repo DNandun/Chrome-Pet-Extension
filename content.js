@@ -14,8 +14,8 @@ const PANDA_SVG = `
   <!-- Head -->
   <ellipse cx="100" cy="85" rx="70" ry="60" fill="white" stroke="#2d2926" stroke-width="8"/>
   <!-- Eyes -->
-  <ellipse cx="75" cy="80" rx="18" ry="22" fill="#2d2926" />
-  <ellipse cx="125" cy="80" rx="18" ry="22" fill="#2d2926" />
+  <ellipse id="panda-eye-l" cx="75" cy="80" rx="18" ry="22" fill="#2d2926" />
+  <ellipse id="panda-eye-r" cx="125" cy="80" rx="18" ry="22" fill="#2d2926" />
   <circle cx="75" cy="75" r="5" fill="white" />
   <circle cx="125" cy="75" r="5" fill="white" />
   <!-- Nose -->
@@ -37,6 +37,8 @@ function injectPanda() {
   wrapper.innerHTML = PANDA_SVG;
 
   const mouth = wrapper.querySelector('#panda-mouth');
+  const eyeL = wrapper.querySelector('#panda-eye-l');
+  const eyeR = wrapper.querySelector('#panda-eye-r');
 
   const style = document.createElement('style');
   style.textContent = `
@@ -90,6 +92,9 @@ function injectPanda() {
     #panda-mouth {
       transition: d 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    #panda-eye-l, #panda-eye-r {
+      transition: transform 0.1s ease-out;
+    }
     @keyframes walk-bob {
       0% { transform: translateY(0px) rotate(-6deg); }
       100% { transform: translateY(-10px) rotate(6deg); }
@@ -133,6 +138,27 @@ function injectPanda() {
 
   shadow.appendChild(style);
   shadow.appendChild(wrapper);
+
+  // Mouse tracking logic for eyes
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) return;
+
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const wrapperCenterX = wrapperRect.left + wrapperRect.width / 2;
+    const wrapperCenterY = wrapperRect.top + wrapperRect.height / 2;
+
+    const angle = Math.atan2(e.clientY - wrapperCenterY, e.clientX - wrapperCenterX);
+    const distance = Math.min(8, Math.hypot(e.clientX - wrapperCenterX, e.clientY - wrapperCenterY) / 15);
+
+    const moveX = Math.cos(angle) * distance;
+    const moveY = Math.sin(angle) * distance;
+
+    if (eyeL && eyeR) {
+      const transform = `translate(${moveX}px, ${moveY}px)`;
+      eyeL.style.transform = transform;
+      eyeR.style.transform = transform;
+    }
+  });
 
   let isWalking = false;
 
