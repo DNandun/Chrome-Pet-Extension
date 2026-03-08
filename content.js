@@ -63,7 +63,13 @@ function injectPanda() {
       animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .hands-up #panda-arm-r {
-      animation: handshake-right 0.2s linear 4;
+      animation: handshake-right 0.25s linear 4;
+    }
+    .hands-up #panda-leg-l {
+      animation: happy-kick 0.5s ease-in-out 2;
+    }
+    .hands-up #panda-leg-r {
+      animation: happy-kick 0.5s ease-in-out 2 alternate-reverse;
     }
     .walking {
       animation: walk-bob 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate !important;
@@ -98,6 +104,10 @@ function injectPanda() {
     @keyframes handshake-right {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
       50% { transform: translate(15px, -15px) rotate(10deg); }
+    }
+    @keyframes happy-kick {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px) rotate(10deg); }
     }
     @keyframes raise-arm-r {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -171,7 +181,7 @@ function injectPanda() {
   wrapper.addEventListener('click', () => {
     if (isDragging) return;
     
-    // Hands up animation
+    // Happy animation (Arms & Legs)
     wrapper.classList.add('hands-up');
     
     // Smile animation
@@ -184,7 +194,7 @@ function injectPanda() {
       if (mouth) {
         mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
       }
-    }, 800); // 2 iterations of 0.4s = 0.8s
+    }, 1000); // Both arms and legs complete 2 cycles in 1.0s
   });
 
   // Load position
