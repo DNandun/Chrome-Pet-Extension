@@ -49,8 +49,8 @@ function injectPanda() {
       cursor: grab;
       z-index: 999999;
       user-select: none;
-      /* Slower, more deliberate transition */
-      transition: transform 0.4s ease, left 5s cubic-bezier(0.4, 0, 0.2, 1), top 5s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Faster 'run' transition, constrained to bottom */
+      transition: transform 0.4s ease, left 2s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease;
     }
     #panda-wrapper:active {
       cursor: grabbing;
@@ -60,18 +60,18 @@ function injectPanda() {
       animation: wave 0.5s ease-in-out !important;
     }
     .walking {
-      /* Slower, heavier bobbing */
-      animation: walk-bob 0.8s ease-in-out infinite alternate !important;
+      /* Faster bobbing for running */
+      animation: walk-bob 0.4s ease-in-out infinite alternate !important;
     }
     .walking #panda-leg-l {
-      animation: walk-leg 0.8s ease-in-out infinite alternate;
+      animation: walk-leg 0.4s ease-in-out infinite alternate;
     }
     .walking #panda-leg-r {
-      animation: walk-leg 0.8s ease-in-out infinite alternate-reverse;
+      animation: walk-leg 0.4s ease-in-out infinite alternate-reverse;
     }
-    /* Heavier squash and stretch */
+    /* Running squash and stretch */
     .walking ellipse[cy="150"] {
-      animation: body-squash 0.8s ease-in-out infinite alternate;
+      animation: body-squash 0.4s ease-in-out infinite alternate;
     }
     .facing-left svg {
       transform: scaleX(-1);
@@ -90,8 +90,8 @@ function injectPanda() {
       100% { transform: translateY(0px) rotate(8deg); }
     }
     @keyframes body-squash {
-      0% { transform: scale(1.1, 0.85); transform-origin: center bottom; } 
-      100% { transform: scale(0.9, 1.1); transform-origin: center bottom; }
+      0% { transform: scale(1.15, 0.8); transform-origin: center bottom; } 
+      100% { transform: scale(0.85, 1.15); transform-origin: center bottom; }
     }
     @keyframes wave {
       0% { transform: rotate(0deg); }
@@ -102,8 +102,7 @@ function injectPanda() {
     }
     @keyframes walk-leg {
       0% { transform: translateY(0px); }
-      /* High-stepping over "rocks" */
-      100% { transform: translateY(-25px) translateX(5px); }
+      100% { transform: translateY(-25px) translateX(8px); }
     }
     svg {
       width: 100%;
@@ -122,11 +121,11 @@ function injectPanda() {
     
     isWalking = true;
     
-    const maxX = window.innerWidth - 120;
-    const maxY = window.innerHeight - 120;
+    const maxX = window.innerWidth - 90;
+    // Constrain to bottom
+    const bottomY = window.innerHeight - 90;
     
     const targetX = Math.max(20, Math.random() * maxX);
-    const targetY = Math.max(20, Math.random() * maxY);
 
     const currentX = wrapper.offsetLeft;
     if (targetX < currentX) {
@@ -137,7 +136,7 @@ function injectPanda() {
 
     wrapper.classList.add('walking');
     wrapper.style.left = `${targetX}px`;
-    wrapper.style.top = `${targetY}px`;
+    wrapper.style.top = `${bottomY}px`;
     wrapper.style.bottom = 'auto';
     wrapper.style.right = 'auto';
 
@@ -151,7 +150,7 @@ function injectPanda() {
           top: wrapper.style.top
         }
       });
-    }, 5000); // Matches the new 5s transition
+    }, 2000); // Matches the new 2s running transition
   }
 
   // Start walking randomly every 8-15 seconds for a more natural feel
