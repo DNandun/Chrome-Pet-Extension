@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Panda Pet",
+  "version": "1.0",
+  "description": "A cute panda companion for your browser.",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
