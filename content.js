@@ -40,9 +40,25 @@ function injectPanda() {
       z-index: 999999;
       user-select: none;
       transition: transform 0.2s ease;
+      animation: float 3s ease-in-out infinite;
     }
     #panda-wrapper:active {
       cursor: grabbing;
+    }
+    .waving {
+      animation: wave 0.5s ease-in-out !important;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(15deg); }
+      50% { transform: rotate(-15deg); }
+      75% { transform: rotate(15deg); }
+      100% { transform: rotate(0deg); }
     }
     svg {
       width: 100%;
@@ -52,6 +68,12 @@ function injectPanda() {
 
   shadow.appendChild(style);
   shadow.appendChild(wrapper);
+
+  wrapper.addEventListener('click', () => {
+    if (isDragging) return;
+    wrapper.classList.add('waving');
+    setTimeout(() => wrapper.classList.remove('waving'), 500);
+  });
 
   // Load position
   chrome.storage.sync.get(['pandaPos'], (result) => {
