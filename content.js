@@ -63,7 +63,7 @@ function injectPanda() {
       animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .hands-up #panda-arm-r {
-      animation: raise-arm-r 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
+      animation: handshake-right 0.2s linear 4;
     }
     .walking {
       animation: walk-bob 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate !important;
@@ -94,6 +94,10 @@ function injectPanda() {
     @keyframes raise-arm-l {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
       50% { transform: translate(-12px, -45px) rotate(-15deg); }
+    }
+    @keyframes handshake-right {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(15px, -15px) rotate(10deg); }
     }
     @keyframes raise-arm-r {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
