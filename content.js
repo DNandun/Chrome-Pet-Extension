@@ -5,8 +5,8 @@ const PANDA_SVG = `
   <!-- Arms/Legs -->
   <circle id="panda-leg-l" cx="55" cy="175" r="22" fill="#2d2926" />
   <circle id="panda-leg-r" cx="145" cy="175" r="22" fill="#2d2926" />
-  <circle cx="50" cy="130" r="20" fill="#2d2926" />
-  <circle cx="150" cy="130" r="20" fill="#2d2926" />
+  <circle id="panda-arm-l" cx="50" cy="130" r="20" fill="#2d2926" />
+  <circle id="panda-arm-r" cx="150" cy="130" r="20" fill="#2d2926" />
   
   <!-- Ears -->
   <circle cx="60" cy="40" r="25" fill="#2d2926" />
@@ -56,8 +56,11 @@ function injectPanda() {
       cursor: grabbing;
       transition: transform 0.2s ease !important;
     }
-    .waving {
-      animation: wave 0.5s ease-in-out !important;
+    .hands-up #panda-arm-l {
+      animation: raise-arm-l 0.5s ease-in-out forwards;
+    }
+    .hands-up #panda-arm-r {
+      animation: raise-arm-r 0.5s ease-in-out forwards;
     }
     .walking {
       /* Faster bobbing for running */
@@ -93,12 +96,13 @@ function injectPanda() {
       0% { transform: scale(1.15, 0.8); transform-origin: center bottom; } 
       100% { transform: scale(0.85, 1.15); transform-origin: center bottom; }
     }
-    @keyframes wave {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(15deg); }
-      50% { transform: rotate(-15deg); }
-      75% { transform: rotate(15deg); }
-      100% { transform: rotate(0deg); }
+    @keyframes raise-arm-l {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-10px, -40px); }
+    }
+    @keyframes raise-arm-r {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(10px, -40px); }
     }
     @keyframes walk-leg {
       0% { transform: translateY(0px); }
@@ -163,8 +167,8 @@ function injectPanda() {
   wrapper.addEventListener('click', () => {
     if (isDragging) return;
     
-    // Wave animation
-    wrapper.classList.add('waving');
+    // Hands up animation
+    wrapper.classList.add('hands-up');
     
     // Smile animation
     if (mouth) {
@@ -172,7 +176,7 @@ function injectPanda() {
     }
 
     setTimeout(() => {
-      wrapper.classList.remove('waving');
+      wrapper.classList.remove('hands-up');
       if (mouth) {
         mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
       }
