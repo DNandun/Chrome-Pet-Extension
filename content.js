@@ -8,21 +8,23 @@ const PANDA_SVG = `
   <circle id="panda-arm-l" cx="50" cy="130" r="20" fill="#2d2926" />
   <circle id="panda-arm-r" cx="150" cy="130" r="20" fill="#2d2926" />
   
-  <!-- Ears -->
-  <circle cx="60" cy="40" r="25" fill="#2d2926" />
-  <circle cx="140" cy="40" r="25" fill="#2d2926" />
-  <!-- Head -->
-  <ellipse cx="100" cy="85" rx="70" ry="60" fill="white" stroke="#2d2926" stroke-width="8"/>
-  <!-- Eyes -->
-  <ellipse id="panda-eye-l" cx="75" cy="80" rx="18" ry="22" fill="#2d2926" />
-  <ellipse id="panda-eye-r" cx="125" cy="80" rx="18" ry="22" fill="#2d2926" />
-  <circle cx="75" cy="75" r="5" fill="white" />
-  <circle cx="125" cy="75" r="5" fill="white" />
-  <!-- Nose -->
-  <path id="panda-mouth" d="M95 105 Q100 110 105 105" stroke="#2d2926" stroke-width="4" fill="none" />
-  <!-- Cheeks -->
-  <circle cx="55" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
-  <circle cx="145" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
+  <g id="panda-head">
+    <!-- Ears -->
+    <circle cx="60" cy="40" r="25" fill="#2d2926" />
+    <circle cx="140" cy="40" r="25" fill="#2d2926" />
+    <!-- Head Base -->
+    <ellipse cx="100" cy="85" rx="70" ry="60" fill="white" stroke="#2d2926" stroke-width="8"/>
+    <!-- Eyes -->
+    <ellipse id="panda-eye-l" cx="75" cy="80" rx="18" ry="22" fill="#2d2926" />
+    <ellipse id="panda-eye-r" cx="125" cy="80" rx="18" ry="22" fill="#2d2926" />
+    <circle cx="75" cy="75" r="5" fill="white" />
+    <circle cx="125" cy="75" r="5" fill="white" />
+    <!-- Nose -->
+    <path id="panda-mouth" d="M95 105 Q100 110 105 105" stroke="#2d2926" stroke-width="4" fill="none" />
+    <!-- Cheeks -->
+    <circle cx="55" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
+    <circle cx="145" cy="105" r="8" fill="#ffb7c5" opacity="0.6" />
+  </g>
 </svg>
 `;
 
@@ -51,9 +53,8 @@ function injectPanda() {
       cursor: grab;
       z-index: 999999;
       user-select: none;
-      /* Ultra-smooth cubic-bezier for running */
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                  left 2s cubic-bezier(0.65, 0, 0.35, 1), 
+                  left 2s cubic-bezier(0.6, 0, 0.4, 1), 
                   top 0.8s cubic-bezier(0.65, 0, 0.35, 1);
       will-change: transform, left, top;
     }
@@ -65,7 +66,6 @@ function injectPanda() {
       animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2;
     }
     .hands-up #panda-arm-r {
-      /* Beautiful, smooth handshake/wave */
       animation: handshake-right 0.5s cubic-bezier(0.45, 0, 0.55, 1) 2;
     }
     .hands-up #panda-leg-l {
@@ -75,16 +75,26 @@ function injectPanda() {
       animation: happy-kick 0.5s ease-in-out 2 alternate-reverse;
     }
     .walking {
-      animation: walk-bob 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate !important;
+      /* Full 2-step gait cycle */
+      animation: walk-cycle 0.8s cubic-bezier(0.45, 0, 0.55, 1) infinite !important;
+    }
+    .walking #panda-head {
+      animation: head-waddle 0.8s ease-in-out infinite;
     }
     .walking #panda-leg-l {
-      animation: walk-leg 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+      animation: step-l 0.8s ease-in-out infinite;
     }
     .walking #panda-leg-r {
-      animation: walk-leg 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate-reverse;
+      animation: step-r 0.8s ease-in-out infinite;
     }
-    .walking ellipse[cy="150"] {
-      animation: body-squash 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    .walking #panda-arm-l {
+      animation: arm-swing-l 0.8s ease-in-out infinite;
+    }
+    .walking #panda-arm-r {
+      animation: arm-swing-r 0.8s ease-in-out infinite;
+    }
+    .walking ellipse[cx="150"] {
+      animation: body-squash 0.4s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
     }
     .facing-left svg {
       transform: scaleX(-1);
@@ -98,13 +108,37 @@ function injectPanda() {
     .landing {
       animation: landing-squash 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
-    @keyframes walk-bob {
-      0% { transform: translateY(0px) rotate(-6deg); }
-      100% { transform: translateY(-10px) rotate(6deg); }
+    @keyframes walk-cycle {
+      0%, 100% { transform: translateY(0) rotate(-7deg); }
+      50% { transform: translateY(0) rotate(7deg); }
+      25%, 75% { transform: translateY(-10px) rotate(0deg); }
+    }
+    @keyframes head-waddle {
+      0%, 100% { transform: translate(-3px, 2px) rotate(-3deg); }
+      50% { transform: translate(3px, 2px) rotate(3deg); }
+      25%, 75% { transform: translate(0, -2px) rotate(0deg); }
+    }
+    @keyframes step-l {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-18px) translateX(8px); }
+      50%, 75% { transform: translateY(0); }
+    }
+    @keyframes step-r {
+      0%, 25%, 100% { transform: translateY(0); }
+      75% { transform: translateY(-18px) translateX(8px); }
+      50% { transform: translateY(0); }
+    }
+    @keyframes arm-swing-l {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(8px, -8px); }
+    }
+    @keyframes arm-swing-r {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-8px, -8px); }
     }
     @keyframes body-squash {
-      0% { transform: scale(1.1, 0.85); transform-origin: center bottom; } 
-      100% { transform: scale(0.92, 1.08); transform-origin: center bottom; }
+      0% { transform: scale(1.08, 0.88); transform-origin: center bottom; } 
+      100% { transform: scale(0.95, 1.05); transform-origin: center bottom; }
     }
     @keyframes landing-squash {
       0% { transform: scale(1, 1); }
