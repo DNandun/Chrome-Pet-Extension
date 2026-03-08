@@ -3,8 +3,8 @@ const PANDA_SVG = `
   <!-- Body -->
   <ellipse cx="100" cy="150" rx="60" ry="45" fill="white" stroke="#2d2926" stroke-width="8"/>
   <!-- Arms/Legs -->
-  <circle cx="55" cy="175" r="22" fill="#2d2926" />
-  <circle cx="145" cy="175" r="22" fill="#2d2926" />
+  <circle id="panda-leg-l" cx="55" cy="175" r="22" fill="#2d2926" />
+  <circle id="panda-leg-r" cx="145" cy="175" r="22" fill="#2d2926" />
   <circle cx="50" cy="130" r="20" fill="#2d2926" />
   <circle cx="150" cy="130" r="20" fill="#2d2926" />
   
@@ -49,14 +49,21 @@ function injectPanda() {
       cursor: grab;
       z-index: 999999;
       user-select: none;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, left 2s ease-in-out, top 2s ease-in-out;
       animation: float 3s ease-in-out infinite;
     }
     #panda-wrapper:active {
       cursor: grabbing;
+      transition: none;
     }
     .waving {
       animation: wave 0.5s ease-in-out !important;
+    }
+    .walking #panda-leg-l {
+      animation: walk-leg 0.4s ease-in-out infinite alternate;
+    }
+    .walking #panda-leg-r {
+      animation: walk-leg 0.4s ease-in-out infinite alternate-reverse;
     }
     #panda-mouth {
       transition: d 0.2s ease;
@@ -73,6 +80,10 @@ function injectPanda() {
       75% { transform: rotate(15deg); }
       100% { transform: rotate(0deg); }
     }
+    @keyframes walk-leg {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-15px); }
+    }
     svg {
       width: 100%;
       height: 100%;
@@ -81,6 +92,46 @@ function injectPanda() {
 
   shadow.appendChild(style);
   shadow.appendChild(wrapper);
+
+  let isWalking = false;
+
+  function walkAround() {
+    if (isDragging || isWalking) return;
+    
+    isWalking = true;
+    wrapper.classList.add('walking');
+
+    const maxX = window.innerWidth - 100;
+    const maxY = window.innerHeight - 100;
+    
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    wrapper.style.left = `${randomX}px`;
+    wrapper.style.top = `${randomY}px`;
+    wrapper.style.bottom = 'auto';
+    wrapper.style.right = 'auto';
+
+    setTimeout(() => {
+      wrapper.classList.remove('walking');
+      isWalking = false;
+      
+      // Save position
+      chrome.storage.sync.set({
+        pandaPos: {
+          left: wrapper.style.left,
+          top: wrapper.style.top
+        }
+      });
+    }, 2000); // Matches the 2s transition in CSS
+  }
+
+  // Start walking randomly every 5-10 seconds
+  setInterval(() => {
+    if (Math.random() > 0.7) { // 30% chance to walk every interval
+      walkAround();
+    }
+  }, 5000);
 
   wrapper.addEventListener('click', () => {
     if (isDragging) return;
