@@ -53,6 +53,16 @@ function injectPanda() {
   shadow.appendChild(style);
   shadow.appendChild(wrapper);
 
+  // Load position
+  chrome.storage.sync.get(['pandaPos'], (result) => {
+    if (result.pandaPos) {
+      wrapper.style.left = result.pandaPos.left;
+      wrapper.style.top = result.pandaPos.top;
+      wrapper.style.bottom = 'auto';
+      wrapper.style.right = 'auto';
+    }
+  });
+
   let isDragging = false;
   let startX, startY;
 
