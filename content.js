@@ -1,5 +1,5 @@
 const PANDA_SVG = `
-<svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<svg width="70" height="70" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <!-- Body -->
   <ellipse cx="100" cy="150" rx="60" ry="45" fill="white" stroke="#2d2926" stroke-width="8"/>
   <!-- Arms/Legs -->
@@ -44,8 +44,8 @@ function injectPanda() {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 100px;
-      height: 100px;
+      width: 70px;
+      height: 70px;
       cursor: grab;
       z-index: 999999;
       user-select: none;
