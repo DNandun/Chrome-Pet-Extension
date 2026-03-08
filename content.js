@@ -197,6 +197,10 @@ function injectPanda() {
   `;
   shadow.appendChild(menu);
 
+  const bubble = document.createElement('div');
+  bubble.id = 'panda-speech-bubble';
+  shadow.appendChild(bubble);
+
   const mouth = wrapper.querySelector('#panda-mouth');
   const eyeL = wrapper.querySelector('#panda-eye-l');
   const eyeR = wrapper.querySelector('#panda-eye-r');
@@ -312,6 +316,33 @@ function injectPanda() {
     .menu-item[data-action="sleep"] { top: 42px; right: 0; }
     .menu-item[data-action="dance"] { bottom: 0; left: 42px; }
     .menu-item[data-action="hide"] { top: 42px; left: 0; }
+
+    #panda-speech-bubble {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      background: white;
+      border: 2px solid #2d2926;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 12px;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+    }
+    #panda-speech-bubble.active { transform: translateX(-50%) scale(1); }
+    #panda-speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: #2d2926 transparent transparent;
+    }
 
     #panda-notepad {
       position: fixed;
@@ -473,6 +504,15 @@ function injectPanda() {
       if (mouth) mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
     }, 2000);
   }
+
+  const quotes = ["Feed me! 🎋", "I love you! ❤️", "Zzz... 😴", "Let's dance! 🎵", "You're doing great! ✨"];
+  function showQuote() {
+    if (settings.enableSleep || isAngry || !bubble) return;
+    bubble.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    bubble.classList.add('active');
+    setTimeout(() => bubble.classList.remove('active'), 4000);
+  }
+  setInterval(showQuote, 30000);
 
   function updateNotepadPosition() {
     const wrapperRect = wrapper.getBoundingClientRect();
