@@ -52,6 +52,42 @@ function injectPanda() {
 
   shadow.appendChild(style);
   shadow.appendChild(wrapper);
+
+  let isDragging = false;
+  let startX, startY;
+
+  wrapper.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - wrapper.offsetLeft;
+    startY = e.clientY - wrapper.offsetTop;
+    wrapper.style.transition = 'none';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    
+    const x = e.clientX - startX;
+    const y = e.clientY - startY;
+    
+    wrapper.style.left = `${x}px`;
+    wrapper.style.top = `${y}px`;
+    wrapper.style.bottom = 'auto';
+    wrapper.style.right = 'auto';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    wrapper.style.transition = 'transform 0.2s ease';
+    
+    // Save position
+    chrome.storage.sync.set({
+      pandaPos: {
+        left: wrapper.style.left,
+        top: wrapper.style.top
+      }
+    });
+  });
 }
 
 injectPanda();
