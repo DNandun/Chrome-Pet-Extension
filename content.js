@@ -1,5 +1,8 @@
 const PANDA_SVG = `
 <svg width="70" height="70" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow (New) -->
+  <ellipse id="panda-shadow" cx="100" cy="195" rx="40" ry="8" fill="rgba(0,0,0,0.15)" style="transform-origin: center;" />
+
   <!-- OUTFIT: Fairy Wings (Behind) -->
   <g id="outfit-fairy-wings" style="display:none;">
     <path d="M60 130 Q20 80 60 160 Q40 120 60 130" fill="#E1F5FE" stroke="#4FC3F7" stroke-width="2" opacity="0.8" />
@@ -12,10 +15,10 @@ const PANDA_SVG = `
   <ellipse id="panda-body" cx="100" cy="150" rx="60" ry="45" fill="white" stroke="#2d2926" stroke-width="8"/>
   
   <!-- Arms/Legs -->
-  <circle id="panda-leg-l" cx="55" cy="175" r="22" fill="#2d2926" />
-  <circle id="panda-leg-r" cx="145" cy="175" r="22" fill="#2d2926" />
-  <circle id="panda-arm-l" cx="50" cy="130" r="20" fill="#2d2926" />
-  <circle id="panda-arm-r" cx="150" cy="130" r="20" fill="#2d2926" />
+  <circle id="panda-leg-l" cx="60" cy="180" r="22" fill="#2d2926" />
+  <circle id="panda-leg-r" cx="140" cy="180" r="22" fill="#2d2926" />
+  <circle id="panda-arm-l" cx="45" cy="135" r="20" fill="#2d2926" />
+  <circle id="panda-arm-r" cx="155" cy="135" r="20" fill="#2d2926" />
   
   <g id="panda-head">
     <!-- Ears -->
@@ -134,6 +137,19 @@ const PANDA_SVG = `
     <text id="zzz-2" x="175" y="25" font-family="Arial" font-weight="bold" fill="#2d2926" font-size="14">z</text>
     <text id="zzz-3" x="185" y="15" font-family="Arial" font-weight="bold" fill="#2d2926" font-size="10">z</text>
   </g>
+  <g id="sleep-extras" style="display:none;">
+    <circle id="snot-bubble" cx="105" cy="105" r="5" fill="#B3E5FC" opacity="0.6" stroke="#81D4FA" stroke-width="1" />
+    <text class="sleep-star" x="40" y="40" font-size="12">⭐</text>
+    <text class="sleep-star" x="160" y="60" font-size="10">✨</text>
+    <text class="sleep-star" x="50" y="80" font-size="8">⭐</text>
+  </g>
+  <g id="anger-extras" style="display:none;">
+    <path id="anger-mark" d="M160 50 L180 50 M170 40 L170 60 M165 45 L175 55 M175 45 L165 55" stroke="#FF0000" stroke-width="4" stroke-linecap="round" />
+    <g id="vibration-lines">
+      <path d="M30 80 Q20 85 30 90" stroke="#FF0000" stroke-width="2" fill="none" opacity="0.6" />
+      <path d="M170 80 Q180 85 170 90" stroke="#FF0000" stroke-width="2" fill="none" opacity="0.6" />
+    </g>
+  </g>
   <g id="smoke-marks" style="display:none;">
     <path id="smoke-1" d="M80 30 Q85 20 80 10" stroke="#888" stroke-width="3" fill="none" opacity="0.6" />
     <path id="smoke-2" d="M100 25 Q105 15 100 5" stroke="#888" stroke-width="3" fill="none" opacity="0.6" />
@@ -145,6 +161,47 @@ const PANDA_SVG = `
   </g>
   <g id="pet-hearts" style="display:none;">
     <text class="heart" x="100" y="40" font-size="20">❤️</text>
+  </g>
+
+  <!-- OUTFIT: Study (Glasses + Book) -->
+  <g id="outfit-study" style="display:none;">
+    <path d="M65 80 Q85 80 85 80 M115 80 Q135 80 135 80" stroke="#2d2926" stroke-width="3" fill="none" />
+    <circle cx="75" cy="80" r="12" stroke="#2d2926" stroke-width="2" fill="rgba(255,255,255,0.2)" />
+    <circle cx="125" cy="80" r="12" stroke="#2d2926" stroke-width="2" fill="rgba(255,255,255,0.2)" />
+    <path d="M87 80 Q100 75 113 80" stroke="#2d2926" stroke-width="2" fill="none" />
+    <g id="study-book" transform="translate(145, 130) rotate(15)">
+      <rect x="0" y="0" width="30" height="40" rx="2" fill="#4A90E2" stroke="#2d2926" stroke-width="2" />
+      <line x1="5" y1="10" x2="25" y2="10" stroke="white" stroke-width="2" />
+      <line x1="5" y1="20" x2="25" y2="20" stroke="white" stroke-width="2" />
+      <line x1="5" y1="30" x2="20" y2="30" stroke="white" stroke-width="2" />
+    </g>
+  </g>
+
+  <!-- WEATHER: Leaf Umbrella (Rain) -->
+  <g id="weather-umbrella" style="display:none; transform-origin: 155px 135px;">
+    <path d="M155 135 L155 60" stroke="#8D6E63" stroke-width="4" fill="none" />
+    <path d="M155 60 Q100 20 40 60 Q100 40 155 60 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="2" />
+    <path d="M155 60 Q100 50 70 75" stroke="#2E7D32" stroke-width="1" fill="none" opacity="0.4" />
+  </g>
+
+  <!-- WEATHER: Scarf (Snow/Cold) -->
+  <g id="weather-scarf" style="display:none;">
+    <path d="M60 115 Q100 135 140 115 L145 125 Q100 145 55 125 Z" fill="#D32F2F" stroke="#B71C1C" stroke-width="1" />
+    <path d="M60 120 L40 155 L65 160 L75 125 Z" fill="#D32F2F" stroke="#B71C1C" stroke-width="1" />
+    <line x1="42" y1="155" x2="63" y2="158" stroke="#B71C1C" stroke-width="2" stroke-dasharray="2,2" />
+  </g>
+
+  <!-- WEATHER: Lantern (Night) -->
+  <g id="weather-lantern" style="display:none;">
+    <line x1="45" y1="135" x2="25" y2="150" stroke="#2d2926" stroke-width="3" />
+    <rect x="15" y="150" width="20" height="30" rx="2" fill="#FFD54F" stroke="#FF8F00" stroke-width="2" />
+    <rect x="18" y="155" width="14" height="20" fill="#FFF9C4" />
+    <circle cx="25" cy="165" r="4" fill="#FFC107">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="25" cy="165" r="15" fill="rgba(255, 213, 79, 0.3)">
+      <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite" />
+    </circle>
   </g>
 </svg>
 `;
@@ -192,14 +249,61 @@ function injectPanda() {
   menu.innerHTML = `
     <div class="menu-item" data-action="note" title="Notepad">📝</div>
     <div class="menu-item" data-action="sleep" title="Sleep/Wake">💤</div>
+    <div class="menu-item" data-action="timer" title="Pomodoro Timer (25m)">🍅</div>
     <div class="menu-item" data-action="dance" title="Dance">🎵</div>
     <div class="menu-item" data-action="hide" title="Hide">❌</div>
   `;
-  shadow.appendChild(menu);
+  wrapper.appendChild(menu);
 
   const bubble = document.createElement('div');
   bubble.id = 'panda-speech-bubble';
   shadow.appendChild(bubble);
+
+  const timerDisplay = document.createElement('div');
+  timerDisplay.id = 'panda-timer';
+  shadow.appendChild(timerDisplay);
+
+  let pomodoroInterval = null;
+  let originalOutfit = 'none';
+
+  function startPomodoro(minutes) {
+    if (pomodoroInterval) stopPomodoro();
+    
+    originalOutfit = settings.selectedOutfit;
+    settings.selectedOutfit = 'study';
+    applyOutfit();
+    
+    let secondsLeft = minutes * 60;
+    timerDisplay.style.display = 'block';
+    
+    const updateTimer = () => {
+      const m = Math.floor(secondsLeft / 60);
+      const s = secondsLeft % 60;
+      timerDisplay.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+      
+      if (secondsLeft <= 0) {
+        stopPomodoro();
+        bubble.textContent = "Break time! 🎋";
+        bubble.classList.add('active');
+        setTimeout(() => bubble.classList.remove('active'), 5000);
+        return;
+      }
+      secondsLeft--;
+    };
+    
+    updateTimer();
+    pomodoroInterval = setInterval(updateTimer, 1000);
+  }
+
+  function stopPomodoro() {
+    if (pomodoroInterval) {
+      clearInterval(pomodoroInterval);
+      pomodoroInterval = null;
+    }
+    timerDisplay.style.display = 'none';
+    settings.selectedOutfit = originalOutfit;
+    applyOutfit();
+  }
 
   const mouth = wrapper.querySelector('#panda-mouth');
   const eyeL = wrapper.querySelector('#panda-eye-l');
@@ -229,9 +333,10 @@ function injectPanda() {
       height: 70px;
       cursor: grab;
       user-select: none;
+      /* Default transition - will be overridden during walking */
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                  left 4s cubic-bezier(0.45, 0, 0.55, 1), 
-                  top 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+                  left 0.4s ease-out, 
+                  top 0.4s ease-out;
       will-change: transform, left, top;
     }
     #panda-wrapper:active {
@@ -242,6 +347,12 @@ function injectPanda() {
     /* OUTFIT CSS */
     .outfit-king #outfit-king-crown { display: block !important; }
     .outfit-lady #outfit-lady-bow { display: block !important; }
+    .outfit-study #outfit-study { display: block !important; }
+    
+    /* WEATHER CSS */
+    .is-raining #weather-umbrella { display: block !important; }
+    .is-snowing #weather-scarf { display: block !important; }
+    .is-night #weather-lantern { display: block !important; }
     
     /* ENHANCED RAPPER OUTFIT */
     .outfit-rapper #outfit-rapper-cap, 
@@ -287,13 +398,14 @@ function injectPanda() {
 
     #panda-radial-menu {
       position: absolute;
-      width: 120px;
-      height: 120px;
-      top: -25px;
-      left: -25px;
+      width: 140px;
+      height: 140px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
       display: none;
       pointer-events: none;
-      z-index: 10;
+      z-index: 1000;
     }
     #panda-radial-menu.active { display: block; pointer-events: auto; }
     .menu-item {
@@ -309,13 +421,32 @@ function injectPanda() {
       cursor: pointer;
       font-size: 18px;
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     .menu-item:hover { background: #eee; transform: scale(1.2); }
-    /* Position items in a circle */
-    .menu-item[data-action="note"] { top: 0; left: 42px; }
-    .menu-item[data-action="sleep"] { top: 42px; right: 0; }
-    .menu-item[data-action="dance"] { bottom: 0; left: 42px; }
-    .menu-item[data-action="hide"] { top: 42px; left: 0; }
+    /* Position items in a circle around the 70x70 panda */
+    .menu-item[data-action="note"] { top: -10px; left: 52px; }
+    .menu-item[data-action="sleep"] { top: 40px; right: -15px; }
+    .menu-item[data-action="timer"] { bottom: -15px; left: 52px; }
+    .menu-item[data-action="dance"] { top: 90px; left: -5px; }
+    .menu-item[data-action="hide"] { top: 40px; left: -15px; }
+
+    #panda-timer {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #2d2926;
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-weight: bold;
+      font-family: monospace;
+      color: #d32f2f;
+      display: none;
+      z-index: 1000;
+      white-space: nowrap;
+    }
 
     #panda-speech-bubble {
       position: absolute;
@@ -367,28 +498,182 @@ function injectPanda() {
     .hands-up #panda-arm-l { animation: raise-arm-l 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 2; }
     .hands-up #panda-arm-r { animation: handshake-right 0.5s cubic-bezier(0.45, 0, 0.55, 1) 2; }
     
-    @keyframes groove-wiggle {
-      0% { transform: translateX(-5px) rotate(-3deg); }
-      100% { transform: translateX(5px) rotate(3deg); }
+    /* --- ENHANCED DANCE ANIMATIONS --- */
+    .is-dancing { 
+      animation: dance-body-groove 0.5s cubic-bezier(0.45, 0, 0.55, 1) infinite !important; 
     }
-    .is-dancing { animation: groove-wiggle 0.4s ease-in-out infinite alternate !important; }
+    /* Add a colorful glow behind the panda while dancing */
+    .is-dancing::before {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255,105,180,0.4) 0%, rgba(138,43,226,0.2) 50%, transparent 70%);
+      border-radius: 50%;
+      z-index: -1;
+      animation: dance-glow-pulse 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes dance-glow-pulse {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; filter: hue-rotate(0deg); }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; filter: hue-rotate(360deg); }
+    }
+
+    @keyframes dance-body-groove {
+      0%, 100% { transform: translateY(0) rotate(-8deg) scale(1.05, 0.95); }
+      50% { transform: translateY(-12px) rotate(8deg) scale(0.95, 1.05); }
+    }
+
+    .is-dancing #panda-arm-l { animation: dance-arm-wave-l 0.5s ease-in-out infinite alternate; }
+    .is-dancing #panda-arm-r { animation: dance-arm-wave-r 0.5s ease-in-out infinite alternate-reverse; }
+    
+    @keyframes dance-arm-wave-l {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-15px, -35px) rotate(-45deg); }
+    }
+    @keyframes dance-arm-wave-r {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(15px, -35px) rotate(45deg); }
+    }
+
+    .is-dancing #panda-leg-l { animation: dance-step-l 0.5s ease-in-out infinite; }
+    .is-dancing #panda-leg-r { animation: dance-step-r 0.5s ease-in-out infinite 0.25s; }
+
+    @keyframes dance-step-l {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px) rotate(-10deg); }
+    }
+    @keyframes dance-step-r {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px) rotate(10deg); }
+    }
+
+    /* Ear Wiggles */
+    .is-dancing circle[cx="60"][cy="40"] { animation: ear-wiggle-l 0.25s ease-in-out infinite alternate; }
+    .is-dancing circle[cx="140"][cy="40"] { animation: ear-wiggle-r 0.25s ease-in-out infinite alternate-reverse; }
+    
+    @keyframes ear-wiggle-l { 0% { transform: rotate(-10deg); } 100% { transform: rotate(10deg); } }
+    @keyframes ear-wiggle-r { 0% { transform: rotate(10deg); } 100% { transform: rotate(-10deg); } }
+
     .is-dancing #dance-notes { display: block !important; }
-    .note { animation: note-float 2s linear infinite; opacity: 0; }
-    @keyframes note-float {
-      0% { transform: translateY(0) scale(0.5); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(-40px) translateX(10px) rotate(20deg); opacity: 0; }
+    .note { 
+      animation: note-float-fancy 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
+      opacity: 0; 
+      filter: drop-shadow(0 0 2px white);
     }
+    .note:nth-child(1) { animation-delay: 0s; fill: #FF4081; }
+    .note:nth-child(2) { animation-delay: 0.7s; fill: #7C4DFF; }
+    
+    @keyframes note-float-fancy {
+      0% { transform: translate(0, 0) scale(0.5) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      50% { transform: translate(20px, -40px) scale(1.2) rotate(20deg); }
+      100% { transform: translate(-10px, -80px) scale(0.8) rotate(-20deg); opacity: 0; }
+    }
+    /* --- END ENHANCED DANCE --- */
 
     .hands-up #panda-leg-l { animation: happy-kick 0.5s ease-in-out 2; }
     .hands-up #panda-leg-r { animation: happy-kick 0.5s ease-in-out 2 alternate-reverse; }
-    .walking { animation: walk-cycle 0.6s cubic-bezier(0.45, 0, 0.55, 1) infinite !important; }
-    .walking #panda-head { animation: head-waddle 0.6s ease-in-out infinite !important; }
-    .walking #panda-leg-l { animation: step-l 0.6s ease-in-out infinite; }
-    .walking #panda-leg-r { animation: step-r 0.6s ease-in-out infinite; }
-    .walking #panda-arm-l { animation: arm-swing-l 0.6s ease-in-out infinite; }
-    .walking #panda-arm-r { animation: arm-swing-r 0.6s ease-in-out infinite; }
-    .walking #panda-body { animation: body-squash 0.3s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; }
+
+    /* --- REALISTIC WALKING ANIMATIONS --- */
+    .walking { 
+      /* The waddle: Body rotates side-to-side and bobs up/down */
+      animation: walk-body-waddle 0.8s ease-in-out infinite !important; 
+    }
+    .walking #panda-head { 
+      /* Head counter-rotates slightly to stay level (gyroscopic stabilization) and bobs slightly delayed */
+      animation: walk-head-stabilize 0.8s ease-in-out infinite !important; 
+    }
+    .walking #panda-leg-l { 
+      /* High knee lift and definitive stomp */
+      animation: walk-leg-l 0.8s linear infinite; 
+    }
+    .walking #panda-leg-r { 
+      animation: walk-leg-r 0.8s linear infinite; 
+    }
+    .walking #panda-arm-l { 
+      /* Counter-swing to legs */
+      animation: walk-arm-l 0.8s ease-in-out infinite; 
+    }
+    .walking #panda-arm-r { 
+      animation: walk-arm-r 0.8s ease-in-out infinite; 
+    }
+    .walking #panda-shadow {
+      /* Shadow shrinks when hopping/lifting */
+      animation: walk-shadow-pulse 0.4s ease-in-out infinite alternate;
+    }
+    .walking #panda-body {
+      /* Subtle squash on impact */
+      animation: walk-body-squash 0.4s ease-in-out infinite alternate;
+    }
+    
+    /* Body Waddle: Tilt Left -> Right. Low at tilts (impact), High at transition (passing).
+       Cycle: 0% (Left Impact), 25% (Mid-air), 50% (Right Impact), 75% (Mid-air), 100% (Left Impact)
+    */
+    @keyframes walk-body-waddle {
+      0%   { transform: rotate(-6deg) translateY(2px); }  /* Left foot down */
+      25%  { transform: rotate(0deg) translateY(-4px); }  /* Mid-step lift */
+      50%  { transform: rotate(6deg) translateY(2px); }   /* Right foot down */
+      75%  { transform: rotate(0deg) translateY(-4px); }  /* Mid-step lift */
+      100% { transform: rotate(-6deg) translateY(2px); }  /* Left foot down */
+    }
+
+    /* Head: Counter-rotate to keep eyes relatively level */
+    @keyframes walk-head-stabilize {
+      0%   { transform: rotate(4deg) translate(2px, 0); }
+      25%  { transform: rotate(0deg) translate(0, -1px); }
+      50%  { transform: rotate(-4deg) translate(-2px, 0); }
+      75%  { transform: rotate(0deg) translate(0, -1px); }
+      100% { transform: rotate(4deg) translate(2px, 0); }
+    }
+
+    /* Leg Cycle: Plant -> Slide Back (Ground) -> Lift -> Forward */
+    @keyframes walk-leg-l {
+      0%   { transform: translateY(0); }                       /* Planted */
+      15%  { transform: translateY(0) translateX(4px); }      /* Push back slightly (ground) */
+      40%  { transform: translateY(-15px) translateX(-2px); } /* Lift High */
+      50%  { transform: translateY(-10px) translateX(-5px); } /* Forward swing peak */
+      75%  { transform: translateY(0) translateX(0); }        /* Contact */
+      100% { transform: translateY(0); }
+    }
+
+    /* Right Leg: Same but offset by 50% */
+    @keyframes walk-leg-r {
+      0%   { transform: translateY(-10px) translateX(-5px); } /* Forward swing peak */
+      25%  { transform: translateY(0) translateX(0); }        /* Contact */
+      50%  { transform: translateY(0); }                       /* Planted */
+      65%  { transform: translateY(0) translateX(4px); }      /* Push back */
+      90%  { transform: translateY(-15px) translateX(-2px); } /* Lift High */
+      100% { transform: translateY(-10px) translateX(-5px); }
+    }
+
+    /* Arms: Opposite to legs (Left Arm moves with Right Leg) */
+    @keyframes walk-arm-l {
+      0%   { transform: translate(-5px, -5px); }
+      50%  { transform: translate(5px, 5px); }
+      100% { transform: translate(-5px, -5px); }
+    }
+    @keyframes walk-arm-r {
+      0%   { transform: translate(5px, 5px); }
+      50%  { transform: translate(-5px, -5px); }
+      100% { transform: translate(5px, 5px); }
+    }
+
+    @keyframes walk-shadow-pulse {
+      0%   { opacity: 0.3; transform: scaleX(1); }
+      100% { opacity: 0.15; transform: scaleX(0.85); }
+    }
+
+    @keyframes walk-body-squash {
+      0% { transform: scale(1.05, 0.95); }
+      100% { transform: scale(0.98, 1.02); }
+    }
+
+    /* --- END REALISTIC WALKING --- */
+
     .facing-left svg { transform: scaleX(-1); }
     #panda-mouth { transition: d 0.3s ease; }
     #panda-eye-l, #panda-eye-r { transition: transform 0.3s cubic-bezier(0.45, 0, 0.55, 1); }
@@ -412,25 +697,60 @@ function injectPanda() {
     @keyframes rose-sway { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
     @keyframes sparkle-twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
     @keyframes hold-rose { 0% { transform: translate(0, 0); } 100% { transform: translate(-15px, -20px) rotate(15deg); } }
-    .is-sleeping #panda-body { animation: sleep-breath 4s ease-in-out infinite alternate !important; }
-    .is-sleeping #panda-head { animation: sleep-head-tilt 4s ease-in-out infinite alternate !important; }
-    .is-sleeping #zzz-marks { display: block !important; }
+    .is-sleeping { 
+      filter: brightness(0.85) sepia(0.2) hue-rotate(180deg); /* Night tint */
+    }
+    .is-sleeping #panda-body { animation: sleep-breath 5s ease-in-out infinite alternate !important; }
+    .is-sleeping #panda-head { animation: sleep-head-tilt 5s ease-in-out infinite alternate !important; }
+    .is-sleeping #zzz-marks, .is-sleeping #sleep-extras { display: block !important; }
+    
+    #snot-bubble { 
+      animation: snot-pulse 5s ease-in-out infinite; 
+      transform-origin: 105px 105px;
+    }
+    @keyframes snot-pulse {
+      0%, 10% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.6; }
+      90%, 100% { transform: scale(0); opacity: 0; }
+    }
+
+    .sleep-star { animation: star-twinkle 2s ease-in-out infinite alternate; }
+    .sleep-star:nth-child(2) { animation-delay: 0.5s; }
+    .sleep-star:nth-child(3) { animation-delay: 1s; }
+    .sleep-star:nth-child(4) { animation-delay: 1.5s; }
+
+    @keyframes star-twinkle {
+      0% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+      100% { opacity: 1; transform: scale(1.2) rotate(20deg); }
+    }
+
     #zzz-1 { animation: zzz-float 3s ease-in-out infinite; }
     #zzz-2 { animation: zzz-float 3s ease-in-out infinite 1s; opacity: 0; }
     #zzz-3 { animation: zzz-float 3s ease-in-out infinite 2s; opacity: 0; }
-    .is-angry { animation: angry-shake 0.1s linear infinite !important; }
-    .is-angry #panda-cheek-l, .is-angry #panda-cheek-r { fill: #ff4d4d !important; opacity: 0.8 !important; }
-    .is-angry #panda-head-base { animation: angry-head-red 0.5s ease-in-out forwards; }
-    
-    .is-blushing #panda-cheek-l, .is-blushing #panda-cheek-r { 
-      fill: #ff69b4 !important; opacity: 0.9 !important; transform: scale(1.3);
+    .is-angry { 
+      animation: angry-shake-intense 0.1s linear infinite !important; 
+      filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7)); /* Fiery aura */
     }
-    .is-blushing #pet-hearts { display: block !important; }
-    .heart { animation: heart-pop 1s ease-out forwards; }
-    @keyframes heart-pop {
-      0% { transform: scale(0); opacity: 0; }
-      50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
-      100% { opacity: 0; transform: scale(1) translateY(-30px); }
+    .is-angry #panda-cheek-l, .is-angry #panda-cheek-r { fill: #ff0000 !important; opacity: 1 !important; transform: scale(1.4); }
+    .is-angry #panda-head-base { animation: angry-head-pulse 0.2s ease-in-out infinite alternate; }
+    .is-angry #anger-extras { display: block !important; }
+    
+    #anger-mark { 
+      animation: anger-mark-pulse 0.4s ease-in-out infinite;
+      transform-origin: 170px 50px;
+    }
+    @keyframes anger-mark-pulse { 0% { transform: scale(0.8); } 100% { transform: scale(1.3); } }
+
+    #vibration-lines path { animation: vibrate-lines 0.1s linear infinite alternate; }
+    @keyframes vibrate-lines { 0% { opacity: 0.3; transform: translateX(-2px); } 100% { opacity: 0.8; transform: translateX(2px); } }
+
+    @keyframes angry-head-pulse { 0% { fill: #ffcccc; } 100% { fill: #ff9999; } }
+    @keyframes angry-shake-intense { 
+      0% { transform: translate(2px, 2px) rotate(0deg); } 
+      25% { transform: translate(-2px, -2px) rotate(-2deg); }
+      50% { transform: translate(-3px, 1px) rotate(2deg); }
+      75% { transform: translate(3px, -1px) rotate(-1deg); }
+      100% { transform: translate(2px, 2px) rotate(0deg); } 
     }
 
     .is-angry #smoke-marks { display: block !important; }
@@ -443,19 +763,11 @@ function injectPanda() {
     @keyframes zzz-float { 0% { opacity: 0; transform: translate(0, 10px) scale(0.5); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(15px, -30px) scale(1.2); } }
     @keyframes sleep-breath { 0% { transform: scale(1, 1); } 100% { transform: scale(1.05, 0.95); transform-origin: center bottom; } }
     @keyframes sleep-head-tilt { 0% { transform: rotate(0deg) translateY(0px); } 100% { transform: rotate(3deg) translateY(2px); } }
-    @keyframes walk-cycle { 0%, 100% { transform: translateY(0) rotate(-7deg); } 50% { transform: translateY(0) rotate(7deg); } 25%, 75% { transform: translateY(-10px) rotate(0deg); } }
-    @keyframes head-waddle { 0%, 100% { transform: translate(-3px, 2px) rotate(-3deg); } 50% { transform: translate(3px, 2px) rotate(3deg); } 25%, 75% { transform: translate(0, -2px) rotate(0deg); } }
-    @keyframes step-l { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-18px) translateX(8px); } 50%, 75% { transform: translateY(0); } }
-    @keyframes step-r { 0%, 25%, 100% { transform: translateY(0); } 75% { transform: translateY(-18px) translateX(8px); } 50% { transform: translateY(0); } }
-    @keyframes arm-swing-l { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(8px, -8px); } }
-    @keyframes arm-swing-r { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(8px, -8px); } }
-    @keyframes body-squash { 0% { transform: scale(1.08, 0.88); transform-origin: center bottom; } 100% { transform: scale(0.95, 1.05); transform-origin: center bottom; } }
     @keyframes landing-squash { 0% { transform: scale(1, 1); } 40% { transform: scale(1.25, 0.75); transform-origin: center bottom; } 100% { transform: scale(1, 1); } }
     @keyframes raise-arm-l { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-12px, -45px) rotate(-15deg); } }
     @keyframes handshake-right { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, -30px) rotate(20deg); } }
     @keyframes happy-kick { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px) rotate(10deg); } }
     @keyframes raise-arm-r { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, -45px) rotate(15deg); } }
-    @keyframes walk-leg { 0% { transform: translateY(0px); } 100% { transform: translateY(-22px) translateX(6px); } }
     svg { width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); shape-rendering: geometricPrecision; }
     * { transform-box: fill-box; transform-origin: center; }
   `;
@@ -465,7 +777,7 @@ function injectPanda() {
 
   function applyOutfit() {
     if (!wrapper) return;
-    wrapper.classList.remove('outfit-king', 'outfit-lady', 'outfit-rapper', 'outfit-fairy');
+    wrapper.classList.remove('outfit-king', 'outfit-lady', 'outfit-rapper', 'outfit-fairy', 'outfit-study');
     if (settings.selectedOutfit !== 'none') wrapper.classList.add(`outfit-${settings.selectedOutfit}`);
   }
 
@@ -477,7 +789,12 @@ function injectPanda() {
 
   function toggleDance() {
     if (isDragging || isWalking || settings.enableSleep || isAngry) return;
-    wrapper.classList.toggle('is-dancing');
+    const isDancing = wrapper.classList.toggle('is-dancing');
+    if (isDancing) {
+      if (mouth) mouth.setAttribute('d', 'M90 110 A10 10 0 1 0 110 110 A10 10 0 1 0 90 110');
+    } else {
+      if (mouth) mouth.setAttribute('d', 'M95 105 Q100 110 105 105');
+    }
   }
 
   let mouseTraveled = 0;
@@ -506,9 +823,20 @@ function injectPanda() {
   }
 
   const quotes = ["Feed me! 🎋", "I love you! ❤️", "Zzz... 😴", "Let's dance! 🎵", "You're doing great! ✨"];
+
+  function getContextSpeech() {
+    const host = window.location.hostname;
+    if (host.includes('github.com')) return "Coding hard? You're a pro! 💻";
+    if (host.includes('youtube.com')) return "Watching videos? Save some bamboo! 🍿";
+    if (host.includes('google.com')) return "Searching for bamboo? 🔍";
+    if (host.includes('stackoverflow.com')) return "Finding answers? Genius! 💡";
+    if (host.includes('facebook.com') || host.includes('twitter.com') || host.includes('instagram.com')) return "Scrolling again? Take a break! 🛑";
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }
+
   function showQuote() {
     if (settings.enableSleep || isAngry || !bubble) return;
-    bubble.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    bubble.textContent = getContextSpeech();
     bubble.classList.add('active');
     setTimeout(() => bubble.classList.remove('active'), 4000);
   }
@@ -526,11 +854,15 @@ function injectPanda() {
   let menuOpen = false;
   wrapper.addEventListener('contextmenu', (e) => {
     e.preventDefault();
+    e.stopPropagation();
     menuOpen = !menuOpen;
     if (menuOpen) menu.classList.add('active'); else menu.classList.remove('active');
   });
 
+  menu.addEventListener('mousedown', (e) => e.stopPropagation());
+
   menu.addEventListener('click', (e) => {
+    e.stopPropagation();
     const action = e.target.closest('.menu-item')?.dataset.action;
     if (!action) return;
     
@@ -543,6 +875,7 @@ function injectPanda() {
       chrome.storage.sync.set({ enableSleep: settings.enableSleep });
       applySleepVisuals();
     }
+    else if (action === 'timer') startPomodoro(25);
     else if (action === 'dance') toggleDance();
     else if (action === 'hide') {
       settings.enablePanda = false;
@@ -552,7 +885,7 @@ function injectPanda() {
   });
 
   document.addEventListener('mousedown', (e) => {
-    if (menuOpen && !wrapper.contains(e.target) && !menu.contains(e.target)) {
+    if (menuOpen && !e.composedPath().includes(wrapper)) {
       menuOpen = false;
       menu.classList.remove('active');
     }
@@ -578,18 +911,25 @@ function injectPanda() {
   }
 
   function applyAngryVisuals(on) {
+    const angerExtras = wrapper.querySelector('#anger-extras');
     if (on) {
       isAngry = true;
       wrapper.classList.remove('is-sleeping');
       wrapper.classList.add('is-angry');
       if (eyesNormal) eyesNormal.style.display = 'block';
-      closedL.style.display = 'none'; closedR.style.display = 'none';
-      browL.style.display = 'block'; browR.style.display = 'block';
-      if (mouth) mouth.setAttribute('d', 'M85 120 Q100 105 115 120');
+      if (closedL) closedL.style.display = 'none'; 
+      if (closedR) closedR.style.display = 'none';
+      if (browL) browL.style.display = 'block'; 
+      if (browR) browR.style.display = 'block';
+      if (angerExtras) angerExtras.style.display = 'block';
+      // Jagged gritting teeth mouth
+      if (mouth) mouth.setAttribute('d', 'M85 115 L95 110 L100 115 L105 110 L115 115');
     } else {
       isAngry = false;
       wrapper.classList.remove('is-angry');
-      browL.style.display = 'none'; browR.style.display = 'none';
+      if (browL) browL.style.display = 'none'; 
+      if (browR) browR.style.display = 'none';
+      if (angerExtras) angerExtras.style.display = 'none';
       applySleepVisuals();
     }
   }
@@ -642,19 +982,49 @@ function injectPanda() {
     savePosition();
   });
 
-  function walkAround() {
+  function walkAround(forcedX = null) {
     if (isDragging || isWalking || !settings.enableWalking || settings.enableSleep || isAngry) return;
     isWalking = true;
     const maxX = window.innerWidth - 90;
     const bottomY = window.innerHeight - 90;
-    const targetX = Math.max(20, Math.random() * maxX);
+    // If forcedX is provided, center the panda (70px wide) on that point. Otherwise pick random.
+    const targetX = forcedX !== null ? forcedX - 35 : Math.max(20, Math.random() * maxX);
     const pos = clampPosition(targetX, bottomY);
+    
+    // Face direction
     if (pos.left < wrapper.offsetLeft) wrapper.classList.add('facing-left'); else wrapper.classList.remove('facing-left');
+    
+    // Calculate Speed (pixels per second)
+    const currentLeft = wrapper.offsetLeft;
+    const distance = Math.abs(pos.left - currentLeft);
+    const speed = 60; // pixels per second
+    const duration = Math.max(2, distance / speed); // Minimum 2s walk
+
+    // Apply custom transition duration for this walk, preserving transform transition
+    wrapper.style.transition = `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left ${duration}s linear, top 0.5s ease-out`;
+
     wrapper.classList.add('walking');
     wrapper.style.left = `${pos.left}px`;
     wrapper.style.top = `${pos.top}px`;
-    setTimeout(() => { isWalking = false; wrapper.classList.remove('walking'); savePosition(); }, 8000);
+
+    setTimeout(() => { 
+      isWalking = false; 
+      wrapper.classList.remove('walking'); 
+      savePosition();
+      // Reset transition to default
+      wrapper.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.4s ease-out, top 0.4s ease-out';
+    }, duration * 1000);
   }
+
+  // Double click at bottom to summon panda
+  document.addEventListener('dblclick', (e) => {
+    // If user double clicks in the bottom 150px of the screen
+    if (e.clientY > window.innerHeight - 150) {
+      // Don't trigger if clicking on the panda itself (handled by its own dblclick for rose)
+      if (e.composedPath().includes(wrapper)) return;
+      walkAround(e.clientX);
+    }
+  });
 
   setInterval(() => { if (Math.random() > 0.6) walkAround(); }, 8000);
 
@@ -707,9 +1077,22 @@ function injectPanda() {
 
   applySleepVisuals();
   applyOutfit();
+  applyWeather();
+
+  function applyWeather() {
+    if (!wrapper) return;
+    chrome.storage.sync.get(['weatherType'], (result) => {
+      wrapper.classList.remove('is-raining', 'is-snowing', 'is-night');
+      const weather = result.weatherType || 'clear';
+      if (weather === 'rain') wrapper.classList.add('is-raining');
+      else if (weather === 'snow') wrapper.classList.add('is-snowing');
+      else if (weather === 'night') wrapper.classList.add('is-night');
+    });
+  }
 
   window.addEventListener('pandaSleepUpdate', () => applySleepVisuals());
   window.addEventListener('pandaOutfitUpdate', () => { applyOutfit(); applySleepVisuals(); });
+  window.addEventListener('pandaWeatherUpdate', () => applyWeather());
 }
 
 function savePosition() { if (wrapper) chrome.storage.sync.set({ pandaPos: { left: wrapper.style.left, top: wrapper.style.top } }); }

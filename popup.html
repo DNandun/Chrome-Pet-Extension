@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 200px;
+      padding: 15px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #2d2926;
+    }
+    h2 { margin-top: 0; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px; width: 14px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #2d2926; }
+    input:checked + .slider:before { transform: translateX(20px); }
+    .footer { font-size: 10px; color: #888; text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>🐼 Panda Settings</h2>
+  
+  <div class="setting">
+    <span>Enable Panda</span>
+    <label class="switch">
+      <input type="checkbox" id="enablePanda" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <span>Auto Walking</span>
+    <label class="switch">
+      <input type="checkbox" id="enableWalking" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <span>Eye Tracking</span>
+    <label class="switch">
+      <input type="checkbox" id="enableEyes" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <span>Sleep Mode</span>
+    <label class="switch">
+      <input type="checkbox" id="enableSleep">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <span>Outfit</span>
+    <select id="selectedOutfit" style="background: white; border: 2px solid #2d2926; border-radius: 5px; padding: 2px;">
+      <option value="none">None</option>
+      <option value="king">King 👑</option>
+      <option value="lady">Lady 🎀</option>
+      <option value="rapper">Rapper 🎤</option>
+      <option value="fairy">Fairy 🧚</option>
+      <option value="study">Study 📖</option>
+    </select>
+  </div>
+
+  <div class="footer">Panda Pet v1.0</div>
+  <script src="popup.js"></script>
+</body>
+</html>
