@@ -578,98 +578,102 @@ function injectPanda() {
     .hands-up #panda-leg-l { animation: happy-kick 0.5s ease-in-out 2; }
     .hands-up #panda-leg-r { animation: happy-kick 0.5s ease-in-out 2 alternate-reverse; }
 
+    /* --- STARTING WALK ANIMATION --- */
+    .starting-walk {
+      transform: scale(0.9, 1.1) translateY(5px);
+      transition: transform 0.3s cubic-bezier(0.45, 0, 0.55, 1) !important;
+    }
+
     /* --- REALISTIC WALKING ANIMATIONS --- */
     .walking { 
-      /* The waddle: Body rotates side-to-side and bobs up/down */
+      /* The waddle: Body rotates side-to-side, bobs up/down, and shifts laterally */
       animation: walk-body-waddle 0.8s ease-in-out infinite !important; 
     }
     .walking #panda-head { 
-      /* Head counter-rotates slightly to stay level (gyroscopic stabilization) and bobs slightly delayed */
+      /* Head counter-rotates slightly to stay level and bobs with a slight delay */
       animation: walk-head-stabilize 0.8s ease-in-out infinite !important; 
     }
     .walking #panda-leg-l { 
-      /* High knee lift and definitive stomp */
-      animation: walk-leg-l 0.8s linear infinite; 
+      /* Heavier, more deliberate steps with a slide-back on the ground */
+      animation: walk-leg-l 0.8s ease-in-out infinite; 
     }
     .walking #panda-leg-r { 
-      animation: walk-leg-r 0.8s linear infinite; 
+      animation: walk-leg-r 0.8s ease-in-out infinite; 
     }
     .walking #panda-arm-l { 
-      /* Counter-swing to legs */
+      /* Counter-swing to legs with more weight */
       animation: walk-arm-l 0.8s ease-in-out infinite; 
     }
     .walking #panda-arm-r { 
       animation: walk-arm-r 0.8s ease-in-out infinite; 
     }
+    /* Ear Wiggles during walking */
+    .walking circle[cx="60"][cy="40"] { animation: walk-ear-wiggle-l 0.4s ease-in-out infinite alternate; }
+    .walking circle[cx="140"][cy="40"] { animation: walk-ear-wiggle-r 0.4s ease-in-out infinite alternate-reverse; }
+
     .walking #panda-shadow {
-      /* Shadow shrinks when hopping/lifting */
+      /* Shadow pulses with the bobbing */
       animation: walk-shadow-pulse 0.4s ease-in-out infinite alternate;
     }
     .walking #panda-body {
-      /* Subtle squash on impact */
-      animation: walk-body-squash 0.4s ease-in-out infinite alternate;
+      /* Subtle squash and lean forward */
+      animation: walk-body-dynamics 0.4s ease-in-out infinite alternate;
     }
     
-    /* Body Waddle: Tilt Left -> Right. Low at tilts (impact), High at transition (passing).
-       Cycle: 0% (Left Impact), 25% (Mid-air), 50% (Right Impact), 75% (Mid-air), 100% (Left Impact)
-    */
     @keyframes walk-body-waddle {
-      0%   { transform: rotate(-6deg) translateY(2px); }  /* Left foot down */
-      25%  { transform: rotate(0deg) translateY(-4px); }  /* Mid-step lift */
-      50%  { transform: rotate(6deg) translateY(2px); }   /* Right foot down */
-      75%  { transform: rotate(0deg) translateY(-4px); }  /* Mid-step lift */
-      100% { transform: rotate(-6deg) translateY(2px); }  /* Left foot down */
+      0%   { transform: rotate(-8deg) translateY(2px) translateX(-3px); }  /* Weight on left */
+      25%  { transform: rotate(0deg) translateY(-5px) translateX(0); }    /* Lifting */
+      50%  { transform: rotate(8deg) translateY(2px) translateX(3px); }    /* Weight on right */
+      75%  { transform: rotate(0deg) translateY(-5px) translateX(0); }    /* Lifting */
+      100% { transform: rotate(-8deg) translateY(2px) translateX(-3px); } /* Weight on left */
     }
 
-    /* Head: Counter-rotate to keep eyes relatively level */
     @keyframes walk-head-stabilize {
-      0%   { transform: rotate(4deg) translate(2px, 0); }
+      0%   { transform: rotate(5deg) translate(3px, 1px); }
       25%  { transform: rotate(0deg) translate(0, -1px); }
-      50%  { transform: rotate(-4deg) translate(-2px, 0); }
+      50%  { transform: rotate(-5deg) translate(-3px, 1px); }
       75%  { transform: rotate(0deg) translate(0, -1px); }
-      100% { transform: rotate(4deg) translate(2px, 0); }
+      100% { transform: rotate(5deg) translate(3px, 1px); }
     }
 
-    /* Leg Cycle: Plant -> Slide Back (Ground) -> Lift -> Forward */
     @keyframes walk-leg-l {
-      0%   { transform: translateY(0); }                       /* Planted */
-      15%  { transform: translateY(0) translateX(4px); }      /* Push back slightly (ground) */
-      40%  { transform: translateY(-15px) translateX(-2px); } /* Lift High */
-      50%  { transform: translateY(-10px) translateX(-5px); } /* Forward swing peak */
-      75%  { transform: translateY(0) translateX(0); }        /* Contact */
-      100% { transform: translateY(0); }
+      0%   { transform: translateY(0) translateX(0); }
+      25%  { transform: translateY(-18px) translateX(-6px) rotate(-10deg); } /* High lift */
+      50%  { transform: translateY(0) translateX(2px); }                   /* Plant */
+      75%  { transform: translateY(0) translateX(5px); }                   /* Push back */
+      100% { transform: translateY(0) translateX(0); }
     }
 
-    /* Right Leg: Same but offset by 50% */
     @keyframes walk-leg-r {
-      0%   { transform: translateY(-10px) translateX(-5px); } /* Forward swing peak */
-      25%  { transform: translateY(0) translateX(0); }        /* Contact */
-      50%  { transform: translateY(0); }                       /* Planted */
-      65%  { transform: translateY(0) translateX(4px); }      /* Push back */
-      90%  { transform: translateY(-15px) translateX(-2px); } /* Lift High */
-      100% { transform: translateY(-10px) translateX(-5px); }
+      0%   { transform: translateY(0) translateX(2px); }                   /* Plant */
+      25%  { transform: translateY(0) translateX(5px); }                   /* Push back */
+      50%  { transform: translateY(0) translateX(0); }
+      75%  { transform: translateY(-18px) translateX(-6px) rotate(-10deg); } /* High lift */
+      100% { transform: translateY(0) translateX(2px); }
     }
 
-    /* Arms: Opposite to legs (Left Arm moves with Right Leg) */
     @keyframes walk-arm-l {
-      0%   { transform: translate(-5px, -5px); }
-      50%  { transform: translate(5px, 5px); }
-      100% { transform: translate(-5px, -5px); }
+      0%   { transform: translate(-8px, -4px) rotate(-10deg); }
+      50%  { transform: translate(4px, 4px) rotate(5deg); }
+      100% { transform: translate(-8px, -4px) rotate(-10deg); }
     }
     @keyframes walk-arm-r {
-      0%   { transform: translate(5px, 5px); }
-      50%  { transform: translate(-5px, -5px); }
-      100% { transform: translate(5px, 5px); }
+      0%   { transform: translate(4px, 4px) rotate(5deg); }
+      50%  { transform: translate(-8px, -4px) rotate(-10deg); }
+      100% { transform: translate(4px, 4px) rotate(5deg); }
+    }
+
+    @keyframes walk-ear-wiggle-l { 0% { transform: rotate(-15deg); } 100% { transform: rotate(5deg); } }
+    @keyframes walk-ear-wiggle-r { 0% { transform: rotate(15deg); } 100% { transform: rotate(-5deg); } }
+
+    @keyframes walk-body-dynamics {
+      0% { transform: scale(1.04, 0.96) rotateX(5deg); } /* Squash + lean */
+      100% { transform: scale(0.97, 1.03) rotateX(0deg); } /* Stretch */
     }
 
     @keyframes walk-shadow-pulse {
-      0%   { opacity: 0.3; transform: scaleX(1); }
-      100% { opacity: 0.15; transform: scaleX(0.85); }
-    }
-
-    @keyframes walk-body-squash {
-      0% { transform: scale(1.05, 0.95); }
-      100% { transform: scale(0.98, 1.02); }
+      0%   { opacity: 0.35; transform: scaleX(1.1); }
+      100% { opacity: 0.15; transform: scaleX(0.8); }
     }
 
     /* --- END REALISTIC WALKING --- */
@@ -994,26 +998,34 @@ function injectPanda() {
     // Face direction
     if (pos.left < wrapper.offsetLeft) wrapper.classList.add('facing-left'); else wrapper.classList.remove('facing-left');
     
-    // Calculate Speed (pixels per second)
+    // Calculate Speed (pixels per second) with some natural variability
     const currentLeft = wrapper.offsetLeft;
     const distance = Math.abs(pos.left - currentLeft);
-    const speed = 60; // pixels per second
+    const speed = 50 + Math.random() * 20; // 50-70 pixels per second
     const duration = Math.max(2, distance / speed); // Minimum 2s walk
 
-    // Apply custom transition duration for this walk, preserving transform transition
-    wrapper.style.transition = `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left ${duration}s linear, top 0.5s ease-out`;
+    // Anticipation Phase
+    wrapper.classList.add('starting-walk');
 
-    wrapper.classList.add('walking');
-    wrapper.style.left = `${pos.left}px`;
-    wrapper.style.top = `${pos.top}px`;
+    setTimeout(() => {
+      if (!wrapper) return;
+      wrapper.classList.remove('starting-walk');
+      wrapper.classList.add('walking');
 
-    setTimeout(() => { 
-      isWalking = false; 
-      wrapper.classList.remove('walking'); 
-      savePosition();
-      // Reset transition to default
-      wrapper.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.4s ease-out, top 0.4s ease-out';
-    }, duration * 1000);
+      // Apply custom transition duration for this walk
+      wrapper.style.transition = `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left ${duration}s linear, top 0.5s ease-out`;
+      wrapper.style.left = `${pos.left}px`;
+      wrapper.style.top = `${pos.top}px`;
+
+      setTimeout(() => { 
+        if (!wrapper) return;
+        isWalking = false; 
+        wrapper.classList.remove('walking'); 
+        savePosition();
+        // Reset transition to default
+        wrapper.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.4s ease-out, top 0.4s ease-out';
+      }, duration * 1000);
+    }, 300);
   }
 
   // Double click at bottom to summon panda
